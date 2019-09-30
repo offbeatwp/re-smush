@@ -4,8 +4,8 @@ namespace OffbeatWP\ReSmush\Helpers;
 
 use \Exception;
 
-
-class General{
+class General
+{
 
     public static function hasAllowedType($image)
     {
@@ -33,9 +33,6 @@ class General{
 
         return false;
     }
-
-
-
 
 }
 
