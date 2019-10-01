@@ -8,6 +8,10 @@ This is a re-smush service package for [offbeatWP](https://github.com/offbeatwp)
 - If the API is offline it will ignore the call and just only upload the images
 - If the size of the image is > 5MB than the image will be ignored
 
+### Workflow
+
+After uploading, a copy of the original file is made. The thumbnails are created after this. These are optimized based on the original (non-optimized) image. The original image is also optimized in this hook. The original file can be found in the upload folder 'filename.extension. original ' without compression. If you generate thumbnails again, it will use the (non-optimized) image. 
+
 ## Installation
 Install the package using [Composer](https://getcomposer.org/) (**First you need to go to the OffbeatWP theme folder**)
 
