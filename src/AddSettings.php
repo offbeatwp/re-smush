@@ -23,7 +23,7 @@ class AddSettings
 
         $imageQualities->addOptions(\OffbeatWP\ReSmush\Data\General::imageQualities());
 
-        $reSmushEnabled = \OffbeatWP\Form\Fields\TrueFalse::make('re_smush_enabled', 'optimize images');
+        $reSmushEnabled = \OffbeatWP\Form\Fields\TrueFalse::make('re_smush_enabled', 'Optimize images');
 
         $form->addField($reSmushEnabled);
         $form->addField($imageQualities);
