@@ -17,6 +17,8 @@ class SmushImage
 
     public function execute()
     {
+        error_log('da:'. $this->image->file);
+
         if (General::hasAllowedType($this->image->type) == true && General::hasAllowedSize($this->image->file) == true) {
             $request = $this->makeCurlRequest($this->image->file);
 

@@ -26,7 +26,6 @@ class Service extends AbstractService
         // --------------------- WP Filters ---------------------
 
         add_filter('delete_attachment', [$this, 'deleteOriginal']);
-        add_filter('image_size_names_choose', [$this, 'addImageSize']);
 
         add_filter('wp_handle_upload', [$this, 'handleUpload'], 10, 2);
 
@@ -47,15 +46,11 @@ class Service extends AbstractService
     {
         if (General::hasAllowedType($image['type']) == true && General::hasAllowedSize($image['file']) == true) {
             $file = $image['file'];
-            $newfile = $image['file'] . '.orginal';
+            $newfile = $image['file'] . '.original';
 
             if (!copy($file, $newfile)) {
                 error_log("failed to copy $file...\n");
             }
-
-//            orginele wordt nu niet kleiner gemaakt
-
-            $this->smushOrginal($image);
         }
 
         return $image;
@@ -70,14 +65,15 @@ class Service extends AbstractService
         $this->smushDemention($image, $key, 'medium');
         $this->smushDemention($image, $key, 'large');
         $this->smushDemention($image, $key, 'hero');
-        $this->smushOrginal($image);
+
+        $this->smushOrginal($image, $key);
 
         return $image;
     }
 
     public function restoreOriginal($image)
     {
-        $file = wp_upload_dir()['basedir'] . '/' . $image['file'] . '.orginal';
+        $file = wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original';
         $newfile = wp_upload_dir()['basedir'] . '/' . $image['file'];
 
         if (!copy($file, $newfile)) {
@@ -85,18 +81,23 @@ class Service extends AbstractService
         }
     }
 
-    public function smushOrginal($image)
+    public function smushOrginal($image, $key)
     {
-        $apiCall = new SmushImage($image['type'], $image['file']);
+        $type = get_post_mime_type($key);
+
+        $apiCall = new SmushImage($type, wp_upload_dir()['basedir'] . '/' . $image['file']);
         $apiCall->setQuality($this->defaultQuality);
+
         $apiCall->execute();
     }
 
     protected function smushDemention($image, $key, $size)
     {
-        $apiCall = new SmushImage(get_post_mime_type($key), $this->getFile($image, $size));
-        $apiCall->setQuality($this->defaultQuality);
-        $apiCall->execute();
+        if ($this->getFile($image, $size)) {
+            $apiCall = new SmushImage(get_post_mime_type($key), $this->getFile($image, $size));
+            $apiCall->setQuality($this->defaultQuality);
+            $apiCall->execute();
+        }
     }
 
     protected function getBasePath($image)
@@ -106,16 +107,20 @@ class Service extends AbstractService
 
     protected function getFile($image, $size = 'thumbnail')
     {
+        if (empty($image["sizes"][$size]["file"])) {
+            return false;
+        }
+
         return wp_upload_dir()['basedir'] . '/' . $this->getBasePath($image) . '/' . $image["sizes"][$size]["file"];
     }
 
     public function deleteOriginal($postId)
     {
-
         $image = wp_get_attachment_metadata($postId);
+        $imageType = get_post_mime_type($postId);
 
-        if (General::hasAllowedType($image['type']) == true && General::hasAllowedSize($image['file']) == true) {
-            unlink($image['file']);
+        if (General::hasAllowedType($imageType) == true) {
+            unlink(wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original');
         }
 
         return $postId;
