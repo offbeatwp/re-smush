@@ -16,7 +16,7 @@ After uploading, a copy of the original file is made. The thumbnails are created
 
 ### Regenerate image
 
-If you are not happy with the optimization, you can set the options differently and re-optimize the image. You can do this by recreating the thumbnails. For example via this plug-in (https://en.wordpress.org/plugins/regenerate-thumbnails/). I use the hook which is called when the thumbnails are (re) generated.
+If you are not happy with the optimization, you can set the options differently and re-optimize the image. You can do this by recreating the thumbnails. For example via this plug-in (https://en.wordpress.org/plugins/regenerate-thumbnails/). I use the hook which is called when the thumbnails are (re-)generated.
 
 ## Installation
 Install the package using [Composer](https://getcomposer.org/) (**First you need to go to the OffbeatWP theme folder**)
