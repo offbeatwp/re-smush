@@ -80,7 +80,7 @@ class SmushImage
         curl_close($ch);
 
         try {
-            $this->hasNoCurlError($result);
+            $this->hasNoResmushResponseError($result);
         } catch (Exception $e) {
             error_log($e->getMessage());
 
@@ -90,10 +90,10 @@ class SmushImage
         return json_decode($result);
     }
 
-    public function hasNoCurlError($result)
+    public function hasNoResmushResponseError($result)
     {
         $checkError = json_decode($result);
-        $this->beforeLog = 'error Log: ';
+        $this->beforeLog = 'Resmush return message (resmush error) ->';
 
         if (isset($checkError->error)) {
             switch ($checkError->error) {
