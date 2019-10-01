@@ -14,6 +14,10 @@ This is a re-smush service package for [offbeatWP](https://github.com/offbeatwp)
 
 After uploading, a copy of the original file is made. The thumbnails are created after this. These are optimized based on the original (non-optimized) image. The original image is also optimized in this hook. The original file can be found in the upload folder 'filename.extension. original ' without compression. If you generate thumbnails again, it will use the (non-optimized) image. 
 
+### Regenerate image
+
+If you are not happy with the optimization, you can set the options differently and re-optimize the image. You can do this by recreating the thumbnails. For example via this plug-in (https://en.wordpress.org/plugins/regenerate-thumbnails/). I use the hook which is called when the thumbnails are (re) generated.
+
 ## Installation
 Install the package using [Composer](https://getcomposer.org/) (**First you need to go to the OffbeatWP theme folder**)
 
