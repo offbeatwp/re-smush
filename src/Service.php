@@ -87,7 +87,6 @@ class Service extends AbstractService
 
         $apiCall = new SmushImage($type, wp_upload_dir()['basedir'] . '/' . $image['file']);
         $apiCall->setQuality($this->defaultQuality);
-
         $apiCall->execute();
     }
 
@@ -120,7 +119,9 @@ class Service extends AbstractService
         $imageType = get_post_mime_type($postId);
 
         if (General::hasAllowedType($imageType) == true) {
-            unlink(wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original');
+            if (file_exists(wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original')) {
+                unlink(wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original');
+            }
         }
 
         return $postId;
