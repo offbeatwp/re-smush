@@ -25,11 +25,9 @@ class Service extends AbstractService
 
         // --------------------- WP Filters ---------------------
 
-        add_filter('delete_attachment', [$this, 'deleteOriginal']);
-
-        add_filter('wp_handle_upload', [$this, 'handleUpload'], 10, 2);
-
-        if (setting('re_smush_enabled_thumbnails') == true) {
+        if (setting('re_smush_enabled') == true) {
+            add_filter('delete_attachment', [$this, 'deleteOriginal']);
+            add_filter('wp_handle_upload', [$this, 'handleUpload'], 10, 2);
             add_filter('wp_generate_attachment_metadata', [$this, 'handleThumbnails'], 10, 2);
         }
 
