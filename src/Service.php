@@ -88,6 +88,20 @@ class Service extends AbstractService
         $apiCall->execute();
     }
 
+    public function deleteOriginal($postId)
+    {
+        $image = wp_get_attachment_metadata($postId);
+        $imageType = get_post_mime_type($postId);
+
+        if (General::hasAllowedType($imageType) == true) {
+            if (file_exists($this->getOriginal($image))) {
+                unlink($this->getOriginal($image));
+            }
+        }
+
+        return $postId;
+    }
+
     public function smushDimensions($image, $key, $size)
     {
         if ($this->getFile($image, $size)) {
@@ -109,20 +123,6 @@ class Service extends AbstractService
         }
 
         return $this->getBaseDir() . $this->getBasePath($image) . '/' . $image["sizes"][$size]["file"];
-    }
-
-    public function deleteOriginal($postId)
-    {
-        $image = wp_get_attachment_metadata($postId);
-        $imageType = get_post_mime_type($postId);
-
-        if (General::hasAllowedType($imageType) == true) {
-            if (file_exists($this->getOriginal($image))) {
-                unlink($this->getOriginal($image));
-            }
-        }
-
-        return $postId;
     }
 
     public function getOriginal($image)
