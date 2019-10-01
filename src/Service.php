@@ -58,37 +58,37 @@ class Service extends AbstractService
     {
         $this->restoreOriginal($image);
 
-        $this->smushDemention($image, $key, 'thumbnail');
-        $this->smushDemention($image, $key, 'medium_large');
-        $this->smushDemention($image, $key, 'medium');
-        $this->smushDemention($image, $key, 'large');
-        $this->smushDemention($image, $key, 'hero');
+        $this->smushDimensions($image, $key, 'thumbnail');
+        $this->smushDimensions($image, $key, 'medium_large');
+        $this->smushDimensions($image, $key, 'medium');
+        $this->smushDimensions($image, $key, 'large');
+        $this->smushDimensions($image, $key, 'hero');
 
-        $this->smushOrginal($image, $key);
+        $this->smushOriginal($image, $key);
 
         return $image;
     }
 
     public function restoreOriginal($image)
     {
-        $file = wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original';
-        $newfile = wp_upload_dir()['basedir'] . '/' . $image['file'];
+        $file = $this->getBaseDir() . $image['file'] . '.original';
+        $newfile = $this->getBaseDir() . $image['file'];
 
         if (!copy($file, $newfile)) {
             error_log("failed to copy $file...\n");
         }
     }
 
-    public function smushOrginal($image, $key)
+    public function smushOriginal($image, $key)
     {
         $type = get_post_mime_type($key);
 
-        $apiCall = new SmushImage($type, wp_upload_dir()['basedir'] . '/' . $image['file']);
+        $apiCall = new SmushImage($type, $this->getBaseDir() . $image['file']);
         $apiCall->setQuality($this->defaultQuality);
         $apiCall->execute();
     }
 
-    protected function smushDemention($image, $key, $size)
+    public function smushDimensions($image, $key, $size)
     {
         if ($this->getFile($image, $size)) {
             $apiCall = new SmushImage(get_post_mime_type($key), $this->getFile($image, $size));
@@ -97,18 +97,18 @@ class Service extends AbstractService
         }
     }
 
-    protected function getBasePath($image)
+    public function getBasePath($image)
     {
         return substr($image["file"], 0, strrpos($image["file"], '/'));
     }
 
-    protected function getFile($image, $size = 'thumbnail')
+    public function getFile($image, $size = 'thumbnail')
     {
         if (empty($image["sizes"][$size]["file"])) {
             return false;
         }
 
-        return wp_upload_dir()['basedir'] . '/' . $this->getBasePath($image) . '/' . $image["sizes"][$size]["file"];
+        return $this->getBaseDir() . $this->getBasePath($image) . '/' . $image["sizes"][$size]["file"];
     }
 
     public function deleteOriginal($postId)
@@ -117,11 +117,21 @@ class Service extends AbstractService
         $imageType = get_post_mime_type($postId);
 
         if (General::hasAllowedType($imageType) == true) {
-            if (file_exists(wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original')) {
-                unlink(wp_upload_dir()['basedir'] . '/' . $image['file'] . '.original');
+            if (file_exists($this->getOriginal($image))) {
+                unlink($this->getOriginal($image));
             }
         }
 
         return $postId;
+    }
+
+    public function getOriginal($image)
+    {
+        return $this->getBaseDir() . $image['file'] . '.original';
+    }
+
+    public function getBaseDir()
+    {
+        return wp_upload_dir()['basedir'] . '/';
     }
 }
