@@ -12,7 +12,7 @@ This is a re-smush service package for [offbeatWP](https://github.com/offbeatwp)
 
 ### Workflow
 
-After uploading, a copy of the original file is made. The thumbnails are created after this. These are optimized based on the original (non-optimized) image. The original image is also optimized in this hook. The original file can be found in the upload folder 'filename.extension. original' without compression. If you generate thumbnails again, it will use the (non-optimized) image. 
+After uploading, a copy of the original file is made. The thumbnails are created after this. These are optimized based on the original (non-optimized) image. The original image is also optimized in this hook. The original file can be found in the upload folder 'filename.extension. original' without any compression. If you generate thumbnails again, it will use the (non-optimized) image.
 
 ### Regenerate image
 
