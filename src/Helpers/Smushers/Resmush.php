@@ -1,10 +1,10 @@
 <?php
 
-namespace OffbeatWP\ReSmush\Helpers;
+namespace OffbeatWP\ReSmush\Helpers\Smushers;
 
-use OffbeatWP\ReSmush\Helpers\Base\SmushApi;
+use OffbeatWP\ReSmush\Helpers\Smushers\Base\SmushApi;
 
-class SmushImage extends SmushApi
+class Resmush extends SmushApi
 {
 
     public function __construct($imageType, $imageFile)

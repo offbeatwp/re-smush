@@ -1,6 +1,6 @@
 <?php
 
-namespace OffbeatWP\ReSmush\Helpers\Base;
+namespace OffbeatWP\ReSmush\Helpers\Smushers\Base;
 
 use OffbeatWP\ReSmush\Helpers\General;
 

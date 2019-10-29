@@ -4,7 +4,7 @@ namespace OffbeatWP\ReSmush;
 
 use OffbeatWP\ReSmush\Helpers\General;
 use OffbeatWP\Services\AbstractService;
-use OffbeatWP\ReSmush\Helpers\SmushImage;
+use OffbeatWP\ReSmush\Helpers\Smushers\Resmush;
 use OffbeatWP\Contracts\SiteSettings;
 
 class Service extends AbstractService
@@ -56,6 +56,7 @@ class Service extends AbstractService
 
     public function handleThumbnails($image, $key)
     {
+
         $this->restoreOriginal($image);
 
         $this->smushDimensions($image, $key, 'thumbnail');
@@ -83,7 +84,7 @@ class Service extends AbstractService
     {
         $type = get_post_mime_type($key);
 
-        $apiCall = new SmushImage($type, $this->getBaseDir() . $image['file']);
+        $apiCall = new Resmush($type, $this->getBaseDir() . $image['file']);
         $apiCall->setQuality($this->defaultQuality);
         $apiCall->execute();
     }
@@ -105,7 +106,7 @@ class Service extends AbstractService
     public function smushDimensions($image, $key, $size)
     {
         if ($this->getFile($image, $size)) {
-            $apiCall = new SmushImage(get_post_mime_type($key), $this->getFile($image, $size));
+            $apiCall = new Resmush(get_post_mime_type($key), $this->getFile($image, $size));
             $apiCall->setQuality($this->defaultQuality);
             $apiCall->execute();
         }
