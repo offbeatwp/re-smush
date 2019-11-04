@@ -13,5 +13,8 @@
     "psr-4": {
       "OffbeatWP\\ReSmush\\": "src"
     }
+  },
+  "require": {
+    "php-di/php-di": "^6.0"
   }
 }

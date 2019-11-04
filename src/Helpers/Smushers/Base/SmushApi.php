@@ -9,10 +9,13 @@ use \Exception;
 abstract class SmushApi
 {
 
-    abstract protected function __construct($imageType, $imageFile);
-
-    public function execute()
+    public function execute($imageType, $imageFile)
     {
+        $this->image->type = $imageType;
+        $this->image->file = $imageFile;
+        $this->url = 'http://api.resmush.it/?qlty=';
+        $this->exif = true;
+
         if (General::hasAllowedType($this->image->type) == true && General::hasAllowedSize($this->image->file) == true) {
             $request = $this->makeCurlRequest($this->image->file);
 
