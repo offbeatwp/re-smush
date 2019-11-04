@@ -13,7 +13,7 @@ abstract class SmushApi
     {
         $this->image->type = $imageType;
         $this->image->file = $imageFile;
-        $this->url = 'http://api.resmush.it/?qlty=';
+
         $this->exif = true;
 
         if (General::hasAllowedType($this->image->type) == true && General::hasAllowedSize($this->image->file) == true) {
