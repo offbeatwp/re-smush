@@ -14,8 +14,6 @@ abstract class SmushApi
         $this->image->type = $imageType;
         $this->image->file = $imageFile;
 
-        $this->exif = true;
-
         if (General::hasAllowedType($this->image->type) == true && General::hasAllowedSize($this->image->file) == true) {
             $request = $this->makeCurlRequest($this->image->file);
 
