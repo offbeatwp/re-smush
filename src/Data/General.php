@@ -9,11 +9,11 @@ class General
     {
         $qualities = [];
 
-        foreach (range(0, 100) as $number) {
+        foreach (range(1, 100) as $number) {
             $qualities[$number] = $number . '%';
         }
 
-        return $qualities;
+        return array_reverse($qualities);
     }
 
 }

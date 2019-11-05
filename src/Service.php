@@ -24,7 +24,7 @@ class Service extends AbstractService
 
         // --------------------- WP Filters ---------------------
 
-        if (setting('re_smush_enabled') == true) {
+        if (setting('smush_enabled') == true) {
             add_filter('delete_attachment', [$this, 'deleteOriginal']);
             add_filter('wp_handle_upload', [$this, 'handleUpload'], 10, 2);
             add_filter('wp_generate_attachment_metadata', [$this, 'handleThumbnails'], 10, 2);
@@ -32,8 +32,8 @@ class Service extends AbstractService
 
         // --------------------- Set default quality ---------------------
 
-        if (setting('re_smush_image_quality') != null && setting('re_smush_image_quality') != '') {
-            $this->defaultQuality = setting('re_smush_image_quality');
+        if (setting('smush_image_quality') != null && setting('smush_image_quality') != '') {
+            $this->defaultQuality = setting('smush_image_quality');
         } else {
             $this->defaultQuality = 90;
         }

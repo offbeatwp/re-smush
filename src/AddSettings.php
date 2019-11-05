@@ -17,15 +17,15 @@ class AddSettings
     public function form()
     {
         $form = new \OffbeatWP\Form\Form();
-        $form->addTab('re_smush_tab', 'OffbeatWP Image optimiser');
+        $form->addTab('smush_tab', 'OffbeatWP Image optimiser');
 
-        $imageQualities = \OffbeatWP\Form\Fields\Select::make('re_smush_image_quality', 'Image Quality');
+        $imageQualities = \OffbeatWP\Form\Fields\Select::make('smush_image_quality', 'Image Quality');
 
         $imageQualities->addOptions(\OffbeatWP\ReSmush\Data\General::imageQualities());
 
-        $reSmushEnabled = \OffbeatWP\Form\Fields\TrueFalse::make('re_smush_enabled', 'Optimize images');
+        $smushEnabled = \OffbeatWP\Form\Fields\TrueFalse::make('smush_enabled', 'Optimize images');
 
-        $form->addField($reSmushEnabled);
+        $form->addField($smushEnabled);
         $form->addField($imageQualities);
 
         return $form;
