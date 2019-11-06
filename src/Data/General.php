@@ -13,7 +13,7 @@ class General
             $qualities[$number] = $number . '%';
         }
 
-        return array_reverse($qualities);
+        return $qualities;
     }
 
 }

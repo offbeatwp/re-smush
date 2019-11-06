@@ -40,8 +40,7 @@ class Service extends AbstractService
 
         $containerBuilder = new \DI\ContainerBuilder();
         $containerBuilder->addDefinitions(dirname(__FILE__) . '/config.php');
-        $container = $containerBuilder->build();
-        $this->smush = $container->get('smush');
+        $this->container = $containerBuilder->build();
     }
 
     public function handleUpload($image)
@@ -85,7 +84,7 @@ class Service extends AbstractService
 
     public function smushOriginal($image, $key)
     {
-        $apiCall = $this->smush;
+        $apiCall = $this->container->get('smush');
         $type = get_post_mime_type($key);
         $apiCall->setQuality($this->defaultQuality);
         $apiCall->execute($type, $this->getBaseDir() . $image['file']);
@@ -108,7 +107,7 @@ class Service extends AbstractService
     public function smushDimensions($image, $key, $size)
     {
         if ($this->getFile($image, $size)) {
-            $apiCall = $this->smush;
+            $apiCall = $this->container->get('smush');
             $apiCall->setQuality($this->defaultQuality);
             $apiCall->execute(get_post_mime_type($key), $this->getFile($image, $size));
         }
