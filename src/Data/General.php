@@ -16,4 +16,14 @@ class General
         return $qualities;
     }
 
+    public static function smusher()
+    {
+        $smusher = [
+            'resmush'
+            => 'Resmush',
+        ];
+
+        return $smusher;
+    }
+
 }

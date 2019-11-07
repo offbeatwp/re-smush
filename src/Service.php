@@ -28,7 +28,11 @@ class Service extends AbstractService
             add_filter('delete_attachment', [$this, 'deleteOriginal']);
             add_filter('wp_handle_upload', [$this, 'handleUpload'], 10, 2);
             add_filter('wp_generate_attachment_metadata', [$this, 'handleThumbnails'], 10, 2);
-            $this->smusher = 'resmush';
+            if (setting('smusher_used') == '' && setting('smusher_used') == null) {
+                $this->smusher = 'resmush';
+            }else{
+                $this->smusher = setting('smusher_used') ;
+            }
         }
 
         // --------------------- Set default quality ---------------------
