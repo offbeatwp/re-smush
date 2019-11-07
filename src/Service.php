@@ -28,6 +28,7 @@ class Service extends AbstractService
             add_filter('delete_attachment', [$this, 'deleteOriginal']);
             add_filter('wp_handle_upload', [$this, 'handleUpload'], 10, 2);
             add_filter('wp_generate_attachment_metadata', [$this, 'handleThumbnails'], 10, 2);
+            $this->smusher = 'resmush';
         }
 
         // --------------------- Set default quality ---------------------
@@ -84,7 +85,7 @@ class Service extends AbstractService
 
     public function smushOriginal($image, $key)
     {
-        $apiCall = $this->container->get('resmush');
+        $apiCall = $this->container->get($this->smusher);
         $type = get_post_mime_type($key);
         $apiCall->setQuality($this->defaultQuality);
         $apiCall->execute($type, $this->getBaseDir() . $image['file']);
@@ -107,7 +108,7 @@ class Service extends AbstractService
     public function smushDimensions($image, $key, $size)
     {
         if ($this->getFile($image, $size)) {
-            $apiCall = $this->container->get('resmush');
+            $apiCall = $this->container->get($this->smusher);
             $apiCall->setQuality($this->defaultQuality);
             $apiCall->execute(get_post_mime_type($key), $this->getFile($image, $size));
         }
