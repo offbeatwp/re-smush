@@ -77,7 +77,7 @@ abstract class SmushApi
         curl_close($ch);
 
         try {
-            $this->hasNoResmushResponseError($result);
+            $this->hasNoApiResponseError($result);
         } catch (Exception $e) {
             error_log($e->getMessage());
 
@@ -87,7 +87,7 @@ abstract class SmushApi
         return json_decode($result);
     }
 
-    public function hasNoResmushResponseError($result)
+    public function hasNoApiResponseError($result)
     {
         $checkError = json_decode($result);
         $this->beforeLog = 'Resmush return message (resmush error) ->';
