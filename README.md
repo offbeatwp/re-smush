@@ -29,7 +29,3 @@ Then you need to add the re-smush as service. You can do this by adding the serv
 ```
 OffbeatWP\ReSmush\Service::class,
 ```
-
-## License
-
-The OffbeatWP framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
