@@ -10,7 +10,7 @@ class Resmush extends SmushApi
     {
         $this->url = 'http://api.resmush.it/?qlty=';
 
-        $this->exif = true;
+        $this->exif = 'true';
     }
 
 }
